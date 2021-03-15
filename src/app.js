@@ -1,7 +1,7 @@
 const express = require('express');
 const { json } = require('express');
 const morgan = require('morgan');
-const apicache = require('apicache');
+
 //importing routes
 const mentorRoutes = require('./routes/mentors');
 const companiesRoutes = require('./routes/companies');
@@ -12,11 +12,11 @@ const rescheduleRoutes = require('./routes/reschedule');
 const meetingsRoutes = require('./routes/meetings');
 const resultsRoutes = require('./routes/results');
 const cors = require('cors');
-const cache = apicache.middleware;
+
 //initialize server
 const app = express();
 //middlewares
-app.use(cache('5 minutes'));
+
 app.use(cors());
 app.use(morgan('dev'));
 app.use(json());

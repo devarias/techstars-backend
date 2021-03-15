@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/devarias/techstars-backend#readme",
   "dependencies": {
-    "apicache": "^1.6.2",
     "axios": "^0.21.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
