@@ -6,6 +6,7 @@ const {
   updateCompany,
 } = require('../controllers/companies.controller');
 const router = Router();
+
 //Company data
 //router.post("/", createCompany);
 router.get('/', getCompanies);

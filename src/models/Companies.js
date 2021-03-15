@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../database/database');
 const Company_survey = require('./Company_survey');
 const Mentor_survey = require('./Mentor_survey');
+
 //Data Acces Object design pattern
 const companies = sequelize.define(
   'companies',
@@ -40,4 +41,5 @@ companies.belongsTo(Mentor_survey, {
   foreignKey: 'company_id',
   sourceKey: 'company_id',
 });
+
 module.exports = companies;

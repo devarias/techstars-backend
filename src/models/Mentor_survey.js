@@ -24,9 +24,6 @@ const Mentor_survey = sequelize.define(
     ranking: {
       type: Sequelize.INTEGER,
     },
-    /*preference: {
-      type: Sequelize.INTEGER,
-    },*/
   },
   {
     timestamps: false,

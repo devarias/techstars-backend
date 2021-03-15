@@ -31,4 +31,5 @@ const schedule = sequelize.define(
     updatedAt: 'updated_at',
   }
 );
+
 module.exports = schedule;

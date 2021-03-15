@@ -40,4 +40,5 @@ mentors.belongsTo(Company_survey, {
   foreignKey: 'mentor_id',
   sourceKey: 'mentor_id',
 });
+
 module.exports = mentors;

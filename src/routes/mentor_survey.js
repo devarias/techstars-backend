@@ -8,6 +8,7 @@ const {
   getMenSurveyByMentor,
 } = require('../controllers/mentor_survey.controller');
 const router = Router();
+
 //Mentors survey data
 router.post('/', createMenSurvey);
 router.get('/', getMenSurvey);
@@ -17,4 +18,5 @@ router.delete('/:id', deleteMenSurvey);
 router.put('/:id', updateMenSurvey);
 //mentor survey data by mentor
 router.get('/mentor/:id', getMenSurveyByMentor);
+
 module.exports = router;

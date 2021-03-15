@@ -37,26 +37,36 @@ async function createMentor(req, res) {
 }
 
 async function getMentorById(req, res) {
-  const { id } = req.params;
-  const mentor = await Mentors.findOne({
-    where: {
-      mentor_id: id,
-    },
-  });
-  res.json(mentor);
+  try {
+    const { id } = req.params;
+    const mentor = await Mentors.findOne({
+      where: {
+        mentor_id: id,
+      },
+    });
+    res.json(mentor);
+  } catch (e) {
+    console.error(e);
+    res.status(404).json({ message: 'Mentor not found' });
+  }
 }
 
 async function deleteMentor(req, res) {
-  const { id } = req.params;
-  const deleteRowCount = await Mentors.destroy({
-    where: {
-      mentor_id: id,
-    },
-  });
-  res.json({
-    message: 'Mentor Deleted Successfully',
-    count: deleteRowCount,
-  });
+  try {
+    const { id } = req.params;
+    const deleteRowCount = await Mentors.destroy({
+      where: {
+        mentor_id: id,
+      },
+    });
+    res.json({
+      message: 'Mentor Deleted Successfully',
+      count: deleteRowCount,
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(404).json({ message: 'Mentor not found' });
+  }
 }
 
 async function updateMentor(req, res) {
@@ -81,8 +91,9 @@ async function updateMentor(req, res) {
       message: 'Mentor Updated Successfully',
       data: mentors,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (e) {
+    console.error(e);
+    res.status(404).json({ message: 'Mentor not found' });
   }
 }
 module.exports = {

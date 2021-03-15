@@ -12,4 +12,5 @@ const days = sequelize.define('days', {
     allowNull: false,
   },
 });
+
 module.exports = days;

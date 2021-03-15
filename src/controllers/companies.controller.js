@@ -50,26 +50,36 @@ async function getCompanies(req, res) {
 }
 
 async function getCompanyById(req, res) {
-  const { id } = req.params;
-  const company = await Company.findOne({
-    where: {
-      company_id: id,
-    },
-  });
-  res.json(company);
+  try {
+    const { id } = req.params;
+    const company = await Company.findOne({
+      where: {
+        company_id: id,
+      },
+    });
+    res.json(company);
+  } catch (e) {
+    console.error(e);
+    res.status(404).json({ message: 'Company not found' });
+  }
 }
 
 async function deleteCompany(req, res) {
-  const { id } = req.params;
-  const deleteRowCount = Company.destroy({
-    where: {
-      company_id: id,
-    },
-  });
-  res.json({
-    message: 'Company Deleted Successfully',
-    count: deleteRowCount,
-  });
+  try {
+    const { id } = req.params;
+    const deleteRowCount = Company.destroy({
+      where: {
+        company_id: id,
+      },
+    });
+    res.json({
+      message: 'Company Deleted Successfully',
+      count: deleteRowCount,
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(404).json({ message: 'Company not found' });
+  }
 }
 
 async function updateCompany(req, res) {
@@ -94,8 +104,9 @@ async function updateCompany(req, res) {
       message: 'Company Updated Successfully',
       data: companies,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (e) {
+    console.error(e);
+    res.status(404).json({ message: 'Company not found' });
   }
 }
 module.exports = { getCompanies, getCompanyById, deleteCompany, updateCompany };

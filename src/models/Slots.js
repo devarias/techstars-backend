@@ -12,4 +12,5 @@ const slots = sequelize.define('slots', {
     allowNull: false,
   },
 });
+
 module.exports = slots;

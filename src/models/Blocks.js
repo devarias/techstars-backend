@@ -12,4 +12,5 @@ const blocks = sequelize.define('blocks', {
     allowNull: false,
   },
 });
+
 module.exports = blocks;
