@@ -18,7 +18,7 @@ async function createMentor(req, res) {
         email,
       },
       {
-        fields: ['mentor_name', 'email'],
+        fields: ['mentor', 'email'],
       }
     );
     if (newMentor) {
@@ -72,17 +72,17 @@ async function deleteMentor(req, res) {
 async function updateMentor(req, res) {
   try {
     const { id } = req.params;
-    const { mentor_name, email } = req.body;
+    const { mentor, email } = req.body;
     const mentors = await Mentors.findAll({
-      attributes: ['mentor_id', 'mentor_name', 'email'],
+      attributes: ['mentor_id', 'mentor', 'email'],
       where: {
         mentor_id: id,
       },
     });
     if (mentors.length > 0) {
-      mentors.forEach(async (mentor) => {
-        await mentor.update({
-          mentor_name: mentor_name,
+      mentors.forEach(async (mentor_) => {
+        await mentor_.update({
+          mentor: mentor,
           email: email,
         });
       });
