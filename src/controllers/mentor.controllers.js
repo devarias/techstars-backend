@@ -10,7 +10,7 @@ async function getMentors(req, res) {
 }
 
 async function createMentor(req, res) {
-  const { mentor_name, email } = req.body;
+  const { mentor, email } = req.body;
   try {
     let newMentor = await Mentors.create(
       {
