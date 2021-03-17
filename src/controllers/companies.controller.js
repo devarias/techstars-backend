@@ -1,45 +1,5 @@
 const Company = require('../models/Companies');
 
-/*export async function createCompany(req, res) {
-  console.log(req.body);
-  const data = req.body;
-  if (data.Companies.length > 0) {
-    data.Companies.forEach(async (row) => {
-      const check = await Company.findOne({
-        where: {
-          company_name: row.company_name,
-          email: row.email,
-        },
-      });
-      if (check === null) {
-        try {
-          let newCompany = await Company.create(
-            {
-              company_name: row.company_name,
-              email: row.email,
-            },
-            {
-              fields: ['company_name', 'email'],
-            }
-          );
-          if (newCompany) {
-            res.json({
-              meassage: 'Company Created Successfully',
-              data: newCompany,
-            });
-          }
-        } catch (error) {
-          console.log(error);
-          res.status(500).json({
-            meassage: 'Something goes wrong !',
-            data: {},
-          });
-        }
-      }
-    });
-  }
-}*/
-
 async function getCompanies(req, res) {
   try {
     const companies = await Company.findAll();

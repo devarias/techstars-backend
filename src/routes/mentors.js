@@ -13,7 +13,7 @@ router.post('/', createMentor);
 router.get('/', getMentors);
 //Mentor data by id
 router.get('/:id', getMentorById);
-router.delete('/:id', deleteMentor);
 router.put('/:id', updateMentor);
+router.delete('/', deleteMentor);
 
 module.exports = router;

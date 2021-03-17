@@ -3,16 +3,12 @@ const companies = require('../models/Companies');
 const days = require('../models/Days');
 const blocks = require('../models/Blocks');
 const slots = require('../models/Slots');
-
 const { spawn } = require('child_process');
 const { Op } = require('sequelize');
-const { info } = require('console');
-//const fs = require('fs')
 
 async function createReschedule(req, res) {
   try {
     const data = await req.body;
-    //console.log(JSON.stringify(data));
 
     let currentSchedule = await schedule.findAll();
     currentSchedule = JSON.stringify(currentSchedule);
@@ -34,7 +30,7 @@ async function createReschedule(req, res) {
 
     var dataFromPy = {};
     const python = spawn('python3', [
-      './src/schedule_algorithm//reschedule.py',
+      './src/schedule_algorithm/reschedule.py',
       JSON.stringify(data),
       currentSchedule,
       currentCompanies,
@@ -94,7 +90,7 @@ async function updateMeetings(req, res) {
       attributes: ['block_id'],
     });
     dataKeys = Object.keys(data);
-    for (key of sataKeys) {
+    for (key of dataKeys) {
       if (key !== 'Mentor' && key !== 'Day' && key != 'Block') {
         if (data[key] !== null) {
           const slotId = await slots.findOne({
@@ -109,17 +105,7 @@ async function updateMeetings(req, res) {
             },
             attributes: ['company_id'],
           });
-          const currentMeet = await schedule.findOne({
-            where: {
-              mentor_id: mentorId.mentor_id,
-              company_id: companyId.company_id,
-            },
-          });
-          // currentMeet.day_id = dayId.day_id;
-          // currentMeet.block_id = blockId.block_id;
-          // currentMeet.slot_id = slotId.slot_id;
-          // currentMeet.save()
-          await schedule.update(
+          const [numberOfAffectedRows, affectedRows] = await schedule.update(
             {
               day_id: dayId.day_id,
               block_id: blockId.block_id,
@@ -127,21 +113,19 @@ async function updateMeetings(req, res) {
             },
             {
               where: {
-                mentor_id: mentorId.mentor_id,
-                company_id: companyId.company_id,
+                [Op.and]: [
+                  { mentor_id: mentorId.mentor_id },
+                  { company_id: companyId.company_id },
+                ],
               },
+              returning: true,
+              plain: true,
             }
           );
-          // await schedule.create({
-          //   mentor_id: mentorId.mentor_id,
-          //   day_id: dayId.day_id,
-          //   block_id: blockId.block_id,
-          //   company_id: companyId.company_id,
-          //   slot_id: slotId.slot_id,
-          // });
         }
       }
     }
+    res.json({ message: 'Meetings updated successfully' });
   } catch (e) {
     console.error(e);
   }

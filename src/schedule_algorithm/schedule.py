@@ -6,7 +6,6 @@ from schedule_restrictive import schedule_restrictive
 
 
 # Load de data and save it in a dataframe
-#fake_json = '[{"Name":"Aaron Schram","Email":"aaron@example.com","Day":"Monday","AM/PM":"PM","Company 2":"Avengers Inc","Company 3":"Pied Piper","Company 4":"SHIELD ","Company 5":"Acme","Company 6":"","Company 7":"","Company 8":""},{"Name":"Adam Burrows","Email":"adam@example.com","Day":"Friday","AM/PM":"AM","Company 2":"Wayne Industries","Company 3":"X Men ","Company 4":"Pied Piper","Company 5":"Xavier Corp","Company 6":"Justice League","Company 7":"Umbrella Corp","Company 8":""},{"Name":"Alex Raymond","Email":"alex@example.com","Day":"Thursday","AM/PM":"PM","Company 2":"Wayne Industries","Company 3":"Justice League","Company 4":"Xavier Corp","Company 5":"SHIELD ","Company 6":"Umbrella Corp","Company 7":"Pied Piper","Company 8":"Avengers Inc"}]'
 input_json = sys.argv[1]
 mentors_comp = pd.read_json(input_json, orient='records')
 mentors_comp = mentors_comp[mentors_comp["Name"] != ""]
@@ -81,12 +80,8 @@ df_PM.columns = columns_PM
 df_AM = df_AM.reindex(['Mentor', 'Email', 'Day', 'Block', '08:00:00', '08:20:00', '08:40:00', '09:00:00', '09:20:00', '09:40:00', '10:00:00', '10:20:00', '10:40:00', '11:00:00', '11:20:00', '11:40:00'] , axis="columns")
 df_PM = df_PM.reindex(['Mentor', 'Email', 'Day', 'Block', '13:10:00', '13:30:00', '13:50:00', '14:10:00', '14:30:00', '14:50:00', '15:10:00', '15:30:00', '15:50:00', '16:10:00', '16:30:00', '16:50:00'], axis="columns")
 
-Am_a = df_AM.iloc[:, :4].to_json(orient='records')
-Am_b = df_AM.iloc[:, 4:].to_json(orient='records')
-full_am = Am_a + ',' + Am_b
-Pm_a = df_PM.iloc[:, :4].to_json(orient='records')
-Pm_b = df_PM.iloc[:, 4:].to_json(orient='records')
-full_pm = Pm_a + ',' + Pm_b
-full = '[' + full_am + ',' + full_pm + ']'
 
-print(full, end="")
+fulldf = pd.concat([df_AM, df_PM])
+fulldf_json = fulldf.to_json(orient='records')
+
+print(fulldf_json, end="")

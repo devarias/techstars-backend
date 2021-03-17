@@ -7,29 +7,15 @@ const mentors = require('../models/Mentors');
 
 const { spawn } = require('child_process');
 const { Op } = require('sequelize');
-const { info } = require('console');
-const fs = require('fs');
-
-/*export function proof(req, res) {
-  console.log(req.body);
-  res.json({ reponse: 'finished' });
-}*/
 
 async function createSchedule(req, res) {
   try {
-    const data = req.body;
-    //let fileData = JSON.stringify(data);
-    //fs.writeFileSync('fake_input.json', fileData);
-    //console.log(data, typeof data);
-    const countDeleted = await mentors.destroy({ where: {} });
-    console.log({ 'Mentors deleted': countDeleted });
-    data.forEach((element) => {
-      console.log(element);
-    });
-    //Populating mentors table
+    const data = await req.body;
 
-    data.forEach(async (row) => {
-      try {
+    //Populating mentors table
+    try {
+      await mentors.destroy({ where: {} });
+      for (row of data) {
         if (row.Name && row.Name.length > 0) {
           const check = await mentors.findOne({
             where: { mentor: row.Name.trim() },
@@ -42,15 +28,10 @@ async function createSchedule(req, res) {
             await mentors.create(newMentor);
           }
         }
-      } catch (e) {
-        console.error(e);
       }
-    });
-
-    //Populating companies table
-    await companies.destroy({ where: {} });
-    data.forEach(async (row) => {
-      try {
+      //Populating companies table
+      await companies.destroy({ where: {} });
+      for (row of data) {
         if (row.Companies && row.Companies.length > 0) {
           const check = await companies.findOne({
             where: { company: row.Companies.trim() },
@@ -63,11 +44,13 @@ async function createSchedule(req, res) {
             await companies.create(newCompany);
           }
         }
-      } catch (e) {
-        console.error(e);
       }
-    });
-
+    } catch (error) {
+      console.log(error);
+      res
+        .status(400)
+        .json({ error: 'The file does not meet the requirements' });
+    }
     // Child process:
     var dataFromPy = {};
     const python = spawn('python3', [
@@ -75,94 +58,48 @@ async function createSchedule(req, res) {
       JSON.stringify(data),
     ]);
     python.stdout.on('data', function (data) {
-      try {
-        console.log('Pipe data from python script ...');
-        dataFromPy = data.toString();
-        dataFromPy = JSON.parse(dataFromPy);
-      } catch (e) {
-        console.error(e);
-      }
+      console.log('Pipe data from python script ...');
+      dataFromPy = data.toString();
+      dataFromPy = JSON.parse(dataFromPy);
     });
-
     python.stderr.on('data', (data) => {
-      try {
-        console.error(`stderr: ${data}`);
-      } catch (e) {
-        console.error(e);
-      }
+      console.error(`stderr: ${data}`);
     });
     // in close event we are sure that stream from child process is closed
     python.on('close', async (code) => {
-      try {
-        console.log(`child process close all stdio with code ${code}`);
-        const dataCopy = [...dataFromPy];
+      console.log(`child process close all stdio with code ${code}`);
 
-        //data to fill table schedule
-        for (i in dataCopy[0]) {
-          dataCopy[0][i].Slots = dataCopy[1][i];
-        }
-        for (j in dataCopy[2]) {
-          dataCopy[2][j].Slots = dataCopy[3][j];
-        }
-        dataCopy.splice(1, 1);
-        dataCopy.splice(2, 1);
-        dataToFillTable = [];
-        for (item of dataCopy) {
-          for (elem of item) {
-            dataToFillTable.push(elem);
-          }
-        }
-        //data to send
-        for (k in dataFromPy[0]) {
-          const ks = Object.keys(dataFromPy[1][k]);
-          for (key of ks) {
-            dataFromPy[0][k][key] = dataFromPy[1][k][key];
-          }
-        }
-        for (h in dataFromPy[2]) {
-          const ks = Object.keys(dataFromPy[3][h]);
-          for (key of ks) {
-            dataFromPy[2][h][key] = dataFromPy[3][h][key];
-          }
-        }
-        dataFromPy.splice(1, 1);
-        dataFromPy.splice(2, 1);
-        dataToSend = [];
-        for (item of dataFromPy) {
-          for (elem of item) {
-            dataToSend.push(elem);
-          }
-        }
-        //Send data to front
-        res.json(dataToSend);
+      //Send data to front
+      //res.json(dataFromPy);
+      //DELETE all records from schedule table, before filling it again with new file uploaded
+      await schedule.destroy({ where: {} });
+      console.log('Records deleted');
 
-        //DELETE all records from schedule table, before filling it again with new file uploaded
-        await schedule.destroy({ where: {} });
-        console.log('Records deleted');
+      //Process to get ids of mentors, days, blocks, companies and slots and populate schedule table
+      for (m of dataFromPy) {
+        const mentorId = await mentors.findOne({
+          where: {
+            mentor: m.Mentor,
+          },
+          attributes: ['mentor_id'],
+        });
+        const dayId = await days.findOne({
+          where: {
+            day: m.Day,
+          },
+          attributes: ['day_id'],
+        });
+        const blockId = await blocks.findOne({
+          where: {
+            block: m.Block,
+          },
+          attributes: ['block_id'],
+        });
 
-        //Process to get ids of mentors, days, blocks, companies and slots and populate schedule table
-        for (meet of dataToFillTable) {
-          const mentorId = await mentors.findOne({
-            where: {
-              mentor: meet.Mentor,
-            },
-            attributes: ['mentor_id'],
-          });
-          const dayId = await days.findOne({
-            where: {
-              day: meet.Day,
-            },
-            attributes: ['day_id'],
-          });
-          const blockId = await blocks.findOne({
-            where: {
-              block: meet.Block,
-            },
-            attributes: ['block_id'],
-          });
-          const slt = Object.keys(meet.Slots);
-          for (key of slt) {
-            if (meet.Slots[key] !== null) {
+        const objKeys = Object.keys(m);
+        for (key of objKeys) {
+          if (['Mentor', 'Email', 'Day', 'Block'].indexOf(key) < 0) {
+            if (m[key]) {
               const slotId = await slots.findOne({
                 where: {
                   slot: key,
@@ -171,11 +108,11 @@ async function createSchedule(req, res) {
               });
               const companyId = await companies.findOne({
                 where: {
-                  company: meet.Slots[key],
+                  company: m[key],
                 },
                 attributes: ['company_id'],
               });
-              //console.log((mentorId.mentor_id), typeof(dayId), typeof(blockId), typeof(companyId), typeof(slotId))
+
               await schedule.create({
                 mentor_id: mentorId.mentor_id,
                 day_id: dayId.day_id,
@@ -186,77 +123,72 @@ async function createSchedule(req, res) {
             }
           }
         }
+      }
 
-        // finding mentors that has not been schedule yet (haven't chosen day and block but already have companies assigned)
-        const allmentors = await mentors.findAll();
-        const mentorsWithSchedule = await schedule.findAll({
-          attributes: ['mentor_id'],
-          group: ['mentor_id'],
-        });
-        const allmen = [];
-        for (mtr of allmentors) {
-          allmen.push(mtr.mentor_id);
-        }
-        const mentorsWithS = [];
-        for (mt of mentorsWithSchedule) {
-          mentorsWithS.push(mt.mentor_id);
-        }
+      // finding mentors that has not been schedule yet (haven't chosen day and block but already have companies assigned)
+      const allmentors = await mentors.findAll();
+      const mentorsWithSchedule = await schedule.findAll({
+        attributes: ['mentor_id'],
+        group: ['mentor_id'],
+      });
+      const allmen = [];
+      for (mtr of allmentors) {
+        allmen.push(mtr.mentor_id);
+      }
+      const mentorsWithS = [];
+      for (mt of mentorsWithSchedule) {
+        mentorsWithS.push(mt.mentor_id);
+      }
 
-        const mentorsWithoutSchedule = [];
-        for (mentor of allmen) {
-          if (mentorsWithS.includes(mentor) === false) {
-            mentorsWithoutSchedule.push(mentor);
+      const mentorsWithoutSchedule = [];
+      for (mentor of allmen) {
+        if (mentorsWithS.includes(mentor) === false) {
+          mentorsWithoutSchedule.push(mentor);
+        }
+      }
+      mentorsWithoutS = [];
+      for (men of mentorsWithoutSchedule) {
+        for (mn of allmentors) {
+          if (mn.mentor_id === men) {
+            mentorsWithoutS.push(mn);
           }
         }
-        mentorsWithoutS = [];
-        for (men of mentorsWithoutSchedule) {
-          for (mn of allmentors) {
-            if (mn.mentor_id === men) {
-              mentorsWithoutS.push(mn);
-            }
-          }
+      }
+      const dataKeys = Object.keys(data[0]);
+      const compKeys = [];
+      for (k of dataKeys) {
+        if (k.search('Company') !== -1) {
+          compKeys.push(k);
         }
-        const dataKeys = Object.keys(data[0]);
-        const compKeys = [];
-        for (k of dataKeys) {
-          if (k.search('Company') !== -1) {
-            compKeys.push(k);
-          }
-        }
-        //console.log(mentorsWithoutSchedule)
-        for (m of mentorsWithoutS) {
-          //console.log(m);
-          for (input of data) {
-            //console.log(input);
-            if (input.Name.trim() === m.mentor) {
-              meetToSchedule = {};
-              meetToSchedule.mentor_id = m.mentor_id;
-              for (c of compKeys) {
-                meetComp = input[c].trim();
-                if (meetComp !== '') {
-                  meetComp = await companies.findOne({
-                    where: {
-                      company: meetComp,
-                    },
-                    attributes: ['company_id'],
-                  });
-                  meetComp = meetComp.company_id;
-                  meetToSchedule.company_id = meetComp;
-                  await schedule.create(meetToSchedule);
-                }
+      }
+      for (m of mentorsWithoutS) {
+        for (input of data) {
+          if (input.Name.trim() === m.mentor) {
+            meetToSchedule = {};
+            meetToSchedule.mentor_id = m.mentor_id;
+            for (c of compKeys) {
+              meetComp = input[c].trim();
+              if (meetComp && meetComp !== '') {
+                meetComp = await companies.findOne({
+                  where: {
+                    company: meetComp,
+                  },
+                  attributes: ['company_id'],
+                });
+                meetComp = meetComp.company_id;
+                meetToSchedule.company_id = meetComp;
+                await schedule.create(meetToSchedule);
               }
             }
           }
         }
-      } catch (e) {
-        console.error(e);
       }
+      //Send data to front
+      res.json(dataFromPy);
     });
   } catch (e) {
     console.error(e);
   }
-
-  //await mentors.findAll().then(mentors => res.json(mentors))
 }
 
 async function getSchedule(req, res) {
@@ -329,7 +261,6 @@ async function getSchedule(req, res) {
       }
       dataToSend.push(objToPush);
     }
-    //console.log(dataToSend);
     res.json(dataToSend);
   } catch (e) {
     console.error(e);
