@@ -51,7 +51,7 @@ async function createSchedule(req, res) {
   // Child process:
   var dataFromPy = {};
   const python = spawn('python3', [
-    './algorithm/schedule.py',
+    './src/schedule_algorithm/schedule.py',
     JSON.stringify(data),
   ]);
   python.stdout.on('data', function (data) {
