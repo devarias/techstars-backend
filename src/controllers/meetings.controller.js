@@ -4,6 +4,7 @@ const mentors = require('../models/Mentors');
 const days = require('../models/Days');
 const blocks = require('../models/Blocks');
 const slots = require('../models/Slots');
+const { Op } = require('sequelize');
 
 async function getMeetings(req, res) {
   try {
