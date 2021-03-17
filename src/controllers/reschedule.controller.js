@@ -1,3 +1,4 @@
+const mentors = require('../models/Mentors');
 const schedule = require('../models/Schedule');
 const companies = require('../models/Companies');
 const days = require('../models/Days');
