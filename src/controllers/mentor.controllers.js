@@ -60,59 +60,6 @@ async function createMentor(req, res) {
         });
       }
     }
-    const mentorToSchedule = [
-      { mentor: data[0].mentor.trim(), Companies: data[0].Companies },
-    ];
-    try {
-      let currentSchedule = await schedule.findAll();
-      currentSchedule = JSON.stringify(currentSchedule);
-
-      let currentCompanies = await companies.findAll();
-      currentCompanies = JSON.stringify(currentCompanies);
-
-      let currentBlocks = await blocks.findAll();
-      currentBlocks = JSON.stringify(currentBlocks);
-
-      let currentDays = await days.findAll();
-      currentDays = JSON.stringify(currentDays);
-
-      let currentSlots = await slots.findAll();
-      currentSlots = JSON.stringify(currentSlots);
-
-      let currentMentors = await mentors.findAll();
-      currentMentors = JSON.stringify(currentMentors);
-
-      var dataFromPy = {};
-      const python = spawn('python3', [
-        './src/schedule_algorithm/reschedule.py',
-        JSON.stringify(data),
-        currentSchedule,
-        currentCompanies,
-        currentBlocks,
-        currentDays,
-        currentSlots,
-        currentMentors,
-      ]);
-      python.stdout.on('data', function (data) {
-        console.log('Pipe data from python script ...');
-        dataFromPy = data.toString();
-        dataFromPy = JSON.parse(dataFromPy);
-      });
-      python.stderr.on('data', (data) => {
-        console.error(`stderr: ${data}`);
-      });
-      // in close event we are sure that stream from child process is closed
-      python.on('close', async (code) => {
-        console.log(`child process close all stdio with code ${code}`);
-        res.json(dataFromPy);
-      });
-    } catch (error) {
-      console.log(error);
-      res.status(400).json({
-        error:
-          'It was not possible to schedule the mentor, please check the data entered and try again',
-      });
-    }
   } catch (error) {
     console.log(error);
     res.status(500).json({
