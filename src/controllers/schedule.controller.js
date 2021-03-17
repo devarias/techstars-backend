@@ -4,7 +4,8 @@ const days = require('../models/Days');
 const blocks = require('../models/Blocks');
 const slots = require('../models/Slots');
 const mentors = require('../models/Mentors');
-
+const mentor_survey = require('../models/Mentor_survey');
+const company_survey = require('../models/Company_survey');
 const { spawn } = require('child_process');
 const { Op } = require('sequelize');
 
@@ -13,6 +14,8 @@ async function createSchedule(req, res) {
 
   //Populating mentors table
   try {
+    await company_survey.destroy({ where: {} });
+    await mentor_survey.destroy({ where: {} });
     await mentors.destroy({ where: {} });
     for (row of data) {
       if (row.Name && row.Name.length > 0) {
