@@ -3,7 +3,7 @@ const companies = require('../models/Companies');
 const mentors = require('../models/Mentors');
 const { Op } = require('sequelize');
 
-exports.getPending = async (req, res) => {
+async function getPending(req, res) {
   try {
     const objects = await schedule.findAll({
       attributes: ['mentor_id', 'day_id', 'block_id'],
@@ -50,6 +50,6 @@ exports.getPending = async (req, res) => {
   } catch (e) {
     console.error(e);
   }
-};
+}
 
 module.exports = { getPending };

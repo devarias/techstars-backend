@@ -8,8 +8,8 @@ const { spawn } = require('child_process');
 
 async function getMentors(req, res) {
   try {
-    const mentors = await mentors.findAll();
-    res.json(mentors);
+    const mentors_ = await mentors.findAll();
+    res.json(mentors_);
   } catch (error) {
     console.log(error);
   }
@@ -125,12 +125,12 @@ async function createMentor(req, res) {
 async function getMentorById(req, res) {
   try {
     const { id } = req.params;
-    const mentor = await mentors.findOne({
+    const mentor_ = await mentors.findOne({
       where: {
         mentor_id: id,
       },
     });
-    res.json(mentor);
+    res.json(mentor_);
   } catch (e) {
     console.error(e);
     res.status(404).json({ message: 'Mentor not found' });
@@ -165,14 +165,14 @@ async function updateMentor(req, res) {
   try {
     const { id } = req.params;
     const { mentor, email } = req.body;
-    const mentors = await mentors.findAll({
+    const mentors_ = await mentors.findAll({
       attributes: ['mentor_id', 'mentor', 'email'],
       where: {
         mentor_id: id,
       },
     });
-    if (mentors.length > 0) {
-      mentors.forEach(async (mentor_) => {
+    if (mentors_.length > 0) {
+      mentors_.forEach(async (mentor_) => {
         await mentor_.update({
           mentor: mentor,
           email: email,
@@ -181,7 +181,7 @@ async function updateMentor(req, res) {
     }
     return res.json({
       message: 'Mentor Updated Successfully',
-      data: mentors,
+      data: mentors_,
     });
   } catch (e) {
     console.error(e);

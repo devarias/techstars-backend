@@ -11,7 +11,7 @@ const scheduleRoutes = require('./routes/schedule');
 const rescheduleRoutes = require('./routes/reschedule');
 const meetingsRoutes = require('./routes/meetings');
 const resultsRoutes = require('./routes/results');
-const tableRoutes = require('./routes/table');
+const tableRoutes = require('./routes/tables');
 const pendingRoutes = require('./routes/pending');
 const cors = require('cors');
 
