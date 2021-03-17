@@ -255,3 +255,5 @@ async function getSchedule(req, res) {
   }
   res.json(dataToSend);
 }
+
+module.exports = { createSchedule, getSchedule };
