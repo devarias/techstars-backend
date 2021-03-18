@@ -8,52 +8,35 @@ const { Op } = require('sequelize');
 
 async function getMeetings(req, res) {
   try {
-    const meetings = await schedule.findAll();
+    const joinned = await schedule.findAll({
+      include: ['mentors', 'days', 'companies', 'blocks', 'slots'],
+    });
+
     const dataToSend = [];
-    for (meet of meetings) {
+    for (meet of joinned) {
       const objToPush = {};
       objToPush.meet_id = meet.meet_id;
 
-      objToPush.mentor = await mentors.findOne({
-        where: { mentor_id: meet.mentor_id },
-        attributes: ['mentor'],
-      });
-      objToPush.mentor = objToPush.mentor.mentor;
+      objToPush.mentor = meet.mentors.mentor;
 
-      if (meet.day_id && meet.day_id !== '') {
-        objToPush.day = await days.findOne({
-          where: { day_id: meet.day_id },
-          attributes: ['day'],
-        });
-        objToPush.day = objToPush.day.day;
+      if (meet.days) {
+        objToPush.day = meet.days.day;
       } else {
-        objToPush.day = null;
+        objToPush.day = meet.days;
       }
 
-      if (meet.block_id && meet.block_id !== '') {
-        objToPush.block = await blocks.findOne({
-          where: { block_id: meet.block_id },
-          attributes: ['block'],
-        });
-        objToPush.block = objToPush.block.block;
+      if (meet.blocks) {
+        objToPush.block = meet.blocks.block;
       } else {
-        objToPush.block = null;
+        objToPush.block = meet.blocks;
       }
 
-      objToPush.company = await companies.findOne({
-        where: { company_id: meet.company_id },
-        attributes: ['company'],
-      });
-      objToPush.company = objToPush.company.company;
+      objToPush.company = meet.companies.company;
 
-      if (meet.slot_id && meet.slot_id !== '') {
-        objToPush.slot = await slots.findOne({
-          where: { slot_id: meet.slot_id },
-          attributes: ['slot'],
-        });
-        objToPush.slot = objToPush.slot.slot;
+      if (meet.slots) {
+        objToPush.slot = meet.slots.slot;
       } else {
-        objToPush.slot = null;
+        objToPush.slot = meet.slots;
       }
 
       objToPush.created_at = meet.created_at;

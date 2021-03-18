@@ -1,10 +1,9 @@
 from ortools.sat.python import cp_model
 import numpy as np
 import pandas as pd
-import sys
-from reschedule_retry import reschedule_retry
 
-def reschedule_func(data, companies):
+#Trying to reschedule with different restrictions
+def reschedule_retry(data, companies):
     """Rescheduling programm"""
     # Create the model.
     model = cp_model.CpModel()
@@ -14,6 +13,7 @@ def reschedule_func(data, companies):
     rows = list(range(len(data)))
 
     ls_m_c = [data[k].get('Companies') for k in rows]
+
     initial_grid = []
     initial_grid.append(list(np.zeros(12,dtype=int)))
 
@@ -47,10 +47,8 @@ def reschedule_func(data, companies):
         model.Add((grid[(0,8)] + grid[(0, 9)]) < 100)
 
     elif ls_m_c[0][6] < 100:
-        model.Add((grid[(0,0)] + grid[(0,1)]) < 100)
-        model.Add((grid[(0,2)]) >= 100)
-        model.Add((grid[(0,3)] + grid[(0, 4)] + grid[(0, 5)] + grid[(0, 6)]) < 100)
-        model.Add((grid[(0,8)]) < 100)
+        model.Add((grid[(0,3)] + grid[(0,4)] + grid[(0,5)]) < 100)
+        model.Add((grid[(0,7)] + grid[(0, 8)] + grid[(0, 9)] + grid[(0, 10)]) < 100)
 
     elif ls_m_c[0][5] < 100:
         model.Add((grid[(0,1)] + grid[(0,2)] + grid[(0, 3)]) < 100)
@@ -63,15 +61,14 @@ def reschedule_func(data, companies):
         model.Add((grid[(0, 4)] + grid[(0, 5)] + grid[(0, 6)]) < 100)
 
     elif ls_m_c[0][3] < 100:
-        model.Add((grid[(0,0)] + grid[(0, 1)]) < 100)
-        model.Add((grid[(0,2)]) >= 100)
-        model.Add((grid[(0, 3)] + grid[(0, 4)]) < 100)
+        model.Add((grid[(0,7)] + grid[(0, 8)]) < 100)
+        model.Add((grid[(0, 9)] + grid[(0, 10)]) < 100)
 
     elif ls_m_c[0][2] < 100:
-        model.Add((grid[(0,0)] + grid[(0, 1)] + grid[(0,2)]) < 100)
+        model.Add((grid[(0,8)] + grid[(0, 9)] + grid[(0,10)]) < 100)
 
     elif ls_m_c[0][1] < 100:
-        model.Add((grid[(0,0)] + grid[(0, 1)]) < 100)
+        model.Add((grid[(0,8)] + grid[(0, 9)]) < 100)
 
     #Initial values.
     for i in rows:
@@ -116,5 +113,5 @@ def reschedule_func(data, companies):
 
     except:
         #print('There is no feasible solution')
-        retry = reschedule_retry(data, companies)
-        return(retry)
+        #retry = schedule_retry(data, companies)
+        return([])

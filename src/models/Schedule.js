@@ -1,5 +1,10 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../database/database');
+const mentors = require('./Mentors');
+const companies = require('./Companies');
+const days = require('./Days');
+const blocks = require('./Blocks');
+const slots = require('./Slots');
 
 const schedule = sequelize.define(
   'schedule',
@@ -31,5 +36,34 @@ const schedule = sequelize.define(
     updatedAt: 'updated_at',
   }
 );
+schedule.belongsTo(mentors, {
+  as: 'mentors',
+  foreignKey: 'mentor_id',
+  onDelete: 'CASCADE',
+});
+
+schedule.belongsTo(days, {
+  as: 'days',
+  foreignKey: 'day_id',
+  onDelete: 'CASCADE',
+});
+
+schedule.belongsTo(companies, {
+  as: 'companies',
+  foreignKey: { name: 'company_id' },
+  onDelete: 'CASCADE',
+});
+
+schedule.belongsTo(blocks, {
+  as: 'blocks',
+  foreignKey: 'block_id',
+  onDelete: 'CASCADE',
+});
+
+schedule.belongsTo(slots, {
+  as: 'slots',
+  foreignKey: 'slot_id',
+  onDelete: 'CASCADE',
+});
 
 module.exports = schedule;

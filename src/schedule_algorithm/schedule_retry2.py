@@ -1,11 +1,10 @@
 from ortools.sat.python import cp_model
 import numpy as np
 import pandas as pd
-from schedule_retry2 import schedule_retry2
 
-#Schedule retry
-def schedule_retry(data, companies):
-    """Try ti Schedule with less restrictions"""
+#Last try to schedule
+def schedule_retry2(data, companies):
+    """Try it Schedule with less restrictions"""
     # Create the model.
     model = cp_model.CpModel()
 
@@ -44,25 +43,24 @@ def schedule_retry(data, companies):
 
 
         elif ls_m_c[i][5] < 100:
-            model.Add((grid[(i,1)] + grid[(i,2)]) < 100)   
-            model.Add((grid[(i,3)]) >= 100)
-            model.Add((grid[(i, 4)] + grid[(i, 5)] + grid[(i, 6)]+ grid[(i, 7)]) < 100)
+            model.Add((grid[(i,1)] + grid[(i,2)] + grid[(i, 3)]) < 100)
+            model.Add((grid[(i, 5)] + grid[(i, 6)] + grid[(i, 7)]) < 100)
 
         elif ls_m_c[i][4] < 100:
-            model.Add((grid[(i,1)] + grid[(i,2)]) + grid[(i,3)] < 100)
-            model.Add((grid[(i,4)]) >= 100)
-            model.Add((grid[(i, 5)] + grid[(i, 6)]) < 100)
+            model.Add((grid[(i,1)] + grid[(i,2)]) < 100)
+            model.Add((grid[(i,3)]) >= 100)
+            model.Add((grid[(i, 4)] + grid[(i, 5)] + grid[(i, 6)]) < 100)
 
         elif ls_m_c[i][3] < 100:
-            model.Add((grid[(i,0)] + grid[(i, 1)]) < 100)
-            model.Add((grid[(i,2)]) >= 100)
-            model.Add((grid[(i, 3)] + grid[(i, 4)]) < 100)
+            model.Add((grid[(i,7)] + grid[(i, 8)]) < 100)
+            model.Add((grid[(i, 9)] + grid[(i, 10)]) < 100)
 
         elif ls_m_c[i][2] < 100:
-            model.Add((grid[(i,0)] + grid[(i, 1)] + grid[(i,2)]) < 100)
+            model.Add((grid[(i,8)] + grid[(i, 9)] + grid[(i,10)]) < 100)
 
         elif ls_m_c[i][1] < 100:
-            model.Add((grid[(i,0)] + grid[(i, 1)]) < 100)
+            model.Add((grid[(i,8)] + grid[(i, 9)]) < 100)
+
 
     # Solve and save a list with values.
     solver = cp_model.CpSolver()
@@ -99,5 +97,4 @@ def schedule_retry(data, companies):
 
     except:
         #print('There is no deasible solution')
-        retry = schedule_retry2(data, companies)
-        return(retry)
+        return([])
