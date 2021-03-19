@@ -4,6 +4,7 @@ describe('GET /api/companies', () => {
   it('responds with json containing list of companies', async () => {
     const response = await request.get('/companies');
     expect(response.status).to.eql(200);
+    expect(response.body).to.be.a('array');
     response.body.forEach((company) => {
       expect(company).to.include.keys('company_id', 'company', 'email');
     });
