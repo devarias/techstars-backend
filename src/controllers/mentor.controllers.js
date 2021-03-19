@@ -4,6 +4,8 @@ const mentors = require('../models/Mentors');
 const days = require('../models/Days');
 const blocks = require('../models/Blocks');
 const slots = require('../models/Slots');
+const mentorSurvey = require('../models/Mentor_survey');
+const companySurvey = require('../models/Company_survey');
 const { spawn } = require('child_process');
 
 async function getMentors(req, res) {
@@ -93,6 +95,16 @@ async function deleteMentor(req, res) {
         mentor: data.mentor.trim(),
       },
       attributes: ['mentor_id'],
+    });
+    const deletedMentorSurvey = mentorSurvey.destroy({
+      where: {
+        mentor_id: mentorId.mentor_id,
+      },
+    });
+    const deletedCompanySurvey = companySurvey.destroy({
+      where: {
+        mentor_id: mentorId.mentor_id,
+      },
     });
     const deleteRowCount = await mentors.destroy({
       where: {
