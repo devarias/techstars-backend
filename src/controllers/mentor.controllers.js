@@ -60,6 +60,7 @@ async function createMentor(req, res) {
         });
       }
     }
+    res.json({ message: 'Mentor created successfully' });
   } catch (error) {
     console.log(error);
     res.status(500).json({
