@@ -1,7 +1,11 @@
 const { Router } = require('express');
-const { giveResults } = require('../controllers/results.controller');
+const {
+  giveMentorResults,
+  giveCompanyResults,
+} = require('../controllers/results.controller');
 const router = Router();
 
-router.get('/', giveResults);
+router.get('/mentors', giveMentorResults);
+router.get('/companies', giveCompanyResults);
 
 module.exports = router;
