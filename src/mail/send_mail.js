@@ -1,6 +1,7 @@
 const axios = require('axios');
 const cron = require('node-cron');
 const nodemailer = require('nodemailer');
+const HOURS_RANGE = '6';
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 //Cron format: '0 0-23/6 * * *' every 6 hours -- '0 12,18 * * *'
 function isToday(meetingDay) {
@@ -14,7 +15,8 @@ function meetingHapenned(meetingSlot) {
   let date = Date();
   if (
     meetingSlot.substring(0, 2) < date.split(' ')[4].substring(0, 2) &&
-    meetingSlot.substring(0, 2) > date.split(' ')[4].substring(0, 2) - '12'
+    meetingSlot.substring(0, 2) >
+      date.split(' ')[4].substring(0, 2) - HOURS_RANGE
   ) {
     return true;
   }
@@ -97,14 +99,20 @@ function setTasks() {
               let mentorMessageOptions = {
                 from: 'finalprojectc12med@gmail.com',
                 to: `${mentor_email}`,
-                subject: 'Scheduled Email',
-                text: `Hi ${mentor_name}. Remember to fill out this survey: http://techstars-app.herokuapp.com/survey/${mentor_id}`,
+                subject:
+                  '[Action required] Which company would you like to work with',
+                text: `Hi ${mentor_name}! \n Thanks for sharing your with companies today.
+                  When you get a chance, please select the companies you want to mentor,
+                  will not mentor, or willing to mentor via this short form: http://techstars-app.herokuapp.com/survey/${mentor_id}`,
               };
               let companyMessageOptions = {
                 from: 'finalprojectc12med@gmail.com',
                 to: `${company_email}`,
-                subject: 'Scheduled Email',
-                text: `Hi ${company_name}. Remember to fill out this survey http://techstars-app.herokuapp.com/survey/${company_id}`,
+                subject:
+                  '[Action required] Which mentor would you like to work with',
+                text: `Hi ${company_name}! \n Thanks for sharing your with companies today.
+                  When you get a chance, please select the companies you want to mentor,
+                  will not mentor, or willing to mentor via this short form: http://techstars-app.herokuapp.com/survey/${company_id}`,
               };
               await sleep(10000);
               transporter.sendMail(
@@ -141,4 +149,4 @@ function setTasks() {
   );
   checkMeetings.start();
 }
-setTasks();
+exports.setTasks = setTasks;
