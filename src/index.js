@@ -1,5 +1,5 @@
 const app = require('./app');
-const { setTasks } = require('./mail/send_mail');
+const { setTasks } = require('./mail/sendgrid');
 
 const port = process.env.PORT || 5000;
 async function main() {

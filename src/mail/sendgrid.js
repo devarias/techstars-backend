@@ -26,7 +26,7 @@ function meetingHapenned(meetingSlot) {
 }
 function setTasks() {
   const checkMeetings = cron.schedule(
-    '0-59/2 * * * *',
+    '30 12,6 * * *',
     async () => {
       const response = await axios.get(
           'https://techstars-api.herokuapp.com/api/meetings'
@@ -143,4 +143,4 @@ function setTasks() {
   );
   checkMeetings.start();
 }
-setTasks();
+exports.setTasks = setTasks;
