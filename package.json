@@ -19,10 +19,14 @@
   },
   "homepage": "https://github.com/devarias/techstars-backend#readme",
   "dependencies": {
+    "@sendgrid/mail": "^7.4.2",
     "axios": "^0.21.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "mailgun-js": "^0.22.0",
     "morgan": "^1.10.0",
+    "node-cron": "^3.0.0",
+    "nodemailer": "^6.5.0",
     "pg": "^8.5.1",
     "sequelize": "^6.5.0"
   },
