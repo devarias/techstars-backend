@@ -127,7 +127,9 @@ async function createMentorResults(
     let mentorList = [];
     for (let i = 0; i < blocks.length; i++) {
       let infoBlocks = {
+        mentor_id: '',
         company: blocks[i].company,
+        company_id: '',
         mentorVote: NaN,
         companyVote: NaN,
         mentorRanking: 1,
@@ -156,12 +158,14 @@ async function createMentorResults(
         for (let k = 0; k < mentors.length; k++) {
           if (mentors[k].mentor === mentorList[i]) {
             mentorID = mentors[k].mentor_id;
+            list[mentorList[i]][j].mentor_id = mentorID;
             break;
           }
         }
         for (let k = 0; k < companies.length; k++) {
           if (companies[k].company === list[mentorList[i]][j].company) {
             companyID = companies[k].company_id;
+            list[mentorList[i]][j].company_id = companyID;
             break;
           }
         }
@@ -233,7 +237,9 @@ async function createCompanyResults(
     let companyList = [];
     for (let i = 0; i < blocks.length; i++) {
       let infoBlocks = {
+        company_id: '',
         mentor: blocks[i].mentor,
+        mentor_id: '',
         mentorVote: NaN,
         companyVote: NaN,
         mentorRanking: 1,
@@ -262,12 +268,14 @@ async function createCompanyResults(
         for (let k = 0; k < companies.length; k++) {
           if (companies[k].company === companyList[i]) {
             companyID = companies[k].company_id;
+            list[mentorList[i]][j].company_id = companyID;
             break;
           }
         }
         for (let k = 0; k < mentors.length; k++) {
           if (mentors[k].mentor === list[companyList[i]][j].mentor) {
             mentorID = mentors[k].mentor_id;
+            list[mentorList[i]][j].mentor_id = mentorID;
             break;
           }
         }
