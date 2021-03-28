@@ -73,7 +73,6 @@ async function performanceCompanies(req, res) {
       totalVotes: 0,
       performance: 0,
     };
-    console.log(results);
     for (let j = 0; j < results[companyName].length; j++) {
       if (results[companyName][j].mentorVote === 3) {
         performance.wants++;
