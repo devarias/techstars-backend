@@ -91,7 +91,7 @@ async function performanceCompanies(req, res) {
       ((performance.wants + performance.willing) * percentage) /
         performance.totalVotes
     );
-    mentorsPerformance[companyName] = performance;
+    companiesPerformance[companyName] = performance;
   }
   res.json(companiesPerformance);
 }
