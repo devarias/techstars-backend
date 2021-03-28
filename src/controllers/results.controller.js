@@ -268,14 +268,14 @@ async function createCompanyResults(
         for (let k = 0; k < companies.length; k++) {
           if (companies[k].company === companyList[i]) {
             companyID = companies[k].company_id;
-            list[mentorList[i]][j].company_id = companyID;
+            list[companyList[i]][j].company_id = companyID;
             break;
           }
         }
         for (let k = 0; k < mentors.length; k++) {
           if (mentors[k].mentor === list[companyList[i]][j].mentor) {
             mentorID = mentors[k].mentor_id;
-            list[mentorList[i]][j].mentor_id = mentorID;
+            list[companyList[i]][j].mentor_id = mentorID;
             break;
           }
         }

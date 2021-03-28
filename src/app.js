@@ -12,6 +12,7 @@ const rescheduleRoutes = require('./routes/reschedule');
 const meetingsRoutes = require('./routes/meetings');
 const resultsRoutes = require('./routes/results');
 const reminderRoutes = require('./routes/reminder');
+const performanceRoutes = require('./routes/performance');
 const tableRoutes = require('./routes/tables');
 const pendingRoutes = require('./routes/pending');
 const cors = require('cors');
@@ -35,6 +36,7 @@ app.use('/api/reschedule', rescheduleRoutes);
 app.use('/api/meetings', meetingsRoutes);
 app.use('/api/results', resultsRoutes);
 app.use('/api/reminder', reminderRoutes);
+app.use('/api/performance', performanceRoutes);
 app.use('/api/table', tableRoutes);
 app.use('/api/pending', pendingRoutes);
 
