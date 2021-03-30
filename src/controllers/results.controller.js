@@ -77,8 +77,7 @@ async function getInfo() {
   }
 }
 function addDays(dateObj, numDays) {
-  dateObj.setDate(dateObj.getDate() + numDays);
-  return dateObj;
+  return dateObj.setDate(dateObj.getDate() + numDays);
 }
 function meetingHappened(meetingSlot) {
   const days = {

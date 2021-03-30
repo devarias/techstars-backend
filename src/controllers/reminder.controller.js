@@ -22,7 +22,7 @@ async function sendReminderMentors(req, res) {
         const mentorMessage = {
           to: mentors[j].email, // Change to your recipient
           from: 'alba.montana.techstars@gmail.com', // Change to your verified sender
-          templateId: 'd-45ac318f205c45128792722f8f704186',
+          templateId: 'd-8f1a632e8db04ed98ea923c163bce086',
           dynamic_template_data: {
             name: mentors[j].mentor,
             id: mentors[j].mentor_id,
@@ -62,7 +62,7 @@ async function sendReminderCompanies(req, res) {
         const companyMessage = {
           to: companies[j].email, // Change to your recipient
           from: 'alba.montana.techstars@gmail.com', // Change to your verified sender
-          templateID: 'd-88a790e96acb42afafa5c21cdff601e0',
+          templateID: 'd-8c4d6f887f324edd88db713459714644',
           dynamic_template_data: {
             name: companies[j].company,
             id: companies[j].company_id,
