@@ -63,11 +63,8 @@ function sendMails() {
               const mentorMessage = {
                 to: mentor_email, // Change to your recipient
                 from: 'alba.montana.techstars@gmail.com', // Change to your verified sender
-                subject:
-                  '[Action required] Which mentor would you like to work with',
-                text: `Hi ${mentor_name} \n Thanks for sharing your with companies today.\
-                  When you get a chance, please select the companies you want to mentor,\
-                  will not mentor, or willing to mentor via this short form: http://techstars-app.herokuapp.com/survey/${mentor_id}`,
+                templateId: 'd-83f7b39a99a446628e3d7e8617cb8eaa',
+                dynamic_template_data: { name: mentor_name, id: mentor_id },
               };
 
               sgMail
@@ -126,11 +123,8 @@ function sendMails() {
               const companyMessage = {
                 to: company_email, // Change to your recipient
                 from: 'alba.montana.techstars@gmail.com', // Change to your verified sender
-                subject:
-                  '[Action required] Which mentor would you like to work with',
-                text: `Hi ${company_name} \n Thanks for sharing your with companies today.\
-                  When you get a chance, please select the companies you want to mentor,\
-                  will not mentor, or willing to mentor via this short form: http://techstars-app.herokuapp.com/survey/${company_id}`,
+                templateId: 'd-36f1202767714b4c8068f9ec11860ed4',
+                dynamic_template_data: { name: company_name, id: company_id },
               };
               sgMail
                 .send(companyMessage)
