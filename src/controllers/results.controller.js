@@ -76,32 +76,31 @@ async function getInfo() {
     console.error(e);
   }
 }
+function addDays(dateObj, numDays) {
+  dateObj.setDate(dateObj.getDate() + numDays);
+  return dateObj;
+}
 function meetingHappened(meetingSlot) {
-  const meetingDay = {
-    Monday: 0,
-    Tuesday: 1,
-    Wednesday: 2,
-    Thursday: 3,
-    Friday: 4,
-  };
   const days = {
-    Mon: 0,
-    Tue: 1,
-    Wed: 2,
-    Thu: 3,
-    Fri: 4,
+    Monday: 1,
+    Tuesday: 2,
+    Wednesday: 3,
+    Thursday: 4,
+    Friday: 5,
   };
-  let date = Date();
-  if (meetingDay[meetingSlot.day] < days[date.slice(0, 3)]) {
+  const date = new Date();
+  const dateCreatedAt = new Date(meetingSlot.created_at);
+  if (
+    date.getUTCDay() > days[meetingSlot.day] &&
+    date.getUTCMonth() >= dateCreatedAt.getUTCMonth()
+  ) {
     return true;
   }
-  if (meetingDay[meetingSlot.day] === days[date.slice(0, 3)]) {
-    if (
-      parseInt(meetingSlot.slot.substring(0, 2)) <
-      parseInt(date.split(' ')[4].substring(0, 2))
-    ) {
-      return true;
-    }
+  if (
+    date.getUTCDay() < days[meetingSlot.day] &&
+    addDays(dateCreatedAt, 6).getUTCDate <= date.getUTCDate()
+  ) {
+    return true;
   }
   return false;
 }
@@ -138,6 +137,7 @@ async function createMentorResults(
         companyFeedback: null,
         matchResult: NaN,
         meetingDone: meetingDone(blocks[i]),
+        survey_id: null,
       };
       if (!list[blocks[i].mentor]) {
         subList = [];
@@ -174,6 +174,8 @@ async function createMentorResults(
             mentorID === mentorSurveys.surveys[k].mentor_id &&
             companyID === mentorSurveys.surveys[k].company_id
           ) {
+            list[mentorList[i]][j].survey_id =
+              mentorSurveys.surveys[k].survey_id;
             list[mentorList[i]][j].mentorVote = mentorSurveys.surveys[k].vote;
             list[mentorList[i]][j].mentorRanking =
               mentorSurveys.surveys[k].ranking;
@@ -248,6 +250,7 @@ async function createCompanyResults(
         companyFeedback: null,
         matchResult: NaN,
         meetingDone: meetingDone(blocks[i]),
+        survey_id: null,
       };
       if (!list[blocks[i].company]) {
         subList = [];
@@ -297,6 +300,8 @@ async function createCompanyResults(
             companyID === companySurveys.surveys[k].company_id &&
             mentorID === companySurveys.surveys[k].mentor_id
           ) {
+            list[companyList[i]][j].survey_id =
+              companySurveys.surveys[k].survey_id;
             list[companyList[i]][j].companyVote =
               companySurveys.surveys[k].vote;
             list[companyList[i]][j].companyRanking =
