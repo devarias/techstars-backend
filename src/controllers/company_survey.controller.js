@@ -59,7 +59,7 @@ async function deleteComSurvey(req, res) {
 async function updateComSurvey(req, res) {
   try {
     const { id } = req.params;
-    const { mentor_id, company_id, vote, feedback } = req.body;
+    const { mentor_id, company_id, vote, feedback, ranking } = req.body;
 
     const survey = await Company_survey.findAll({
       attributes: ['mentor_id', 'company_id', 'vote', 'feedback', 'ranking'],
