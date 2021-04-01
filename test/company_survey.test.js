@@ -33,8 +33,7 @@ describe('POST /company_survey ', async () => {
     const deleteRes = await request.delete(
       `/company_survey/${response.body.data.survey_id}`
     );
-    console.log(response.body.data.survey_id);
-    /*expect(deleteRes.status).to.eql(200);
-    expect(deleteRes.body).to.include.keys('message', 'count');*/
+    expect(deleteRes.status).to.eql(200);
+    expect(deleteRes.body).to.include.keys('message', 'count');
   });
 });
