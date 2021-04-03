@@ -1,4 +1,6 @@
 const axios = require('axios');
+const mentorProPic = require('./mentor_pictures.controller');
+const companyProPic = require('./company_pictures.controller');
 
 const mentorsApi = 'https://techstars-api.herokuapp.com/api/mentors';
 const companiesApi = 'https://techstars-api.herokuapp.com/api/companies';
@@ -137,6 +139,7 @@ async function createMentorResults(
         matchResult: NaN,
         meetingDone: meetingDone(blocks[i]),
         survey_id: null,
+        picture: companyProPic[blocks[i].company],
       };
       if (!list[blocks[i].mentor]) {
         subList = [];
@@ -250,6 +253,7 @@ async function createCompanyResults(
         matchResult: NaN,
         meetingDone: meetingDone(blocks[i]),
         survey_id: null,
+        picture: mentorProPic[blocks[i].mentor],
       };
       if (!list[blocks[i].company]) {
         subList = [];
