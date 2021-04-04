@@ -147,46 +147,44 @@ This README provides guidelines and examples for Mentor Matching Machine API, us
 # Contributors
 
 <div style="display: flex; align-items: center; margin-left: 10%;">
-    <div align='center' style="margin-right: 10%;">
-        <a href="https://github.com/Deyber2000" target="_blank">
-            <img alt="twitter_page" src="https://avatars.githubusercontent.com/u/65909950?v=4" style="border-radius: 50%" height="80%" width="80">
-        <p>Deyber Castaneda</p>
-        </a>
-        <div>
-            <a href="https://www.linkedin.com/in/deybercastaneda/" target="_blank" rel="noopener noreferrer">
-                <img src="https://img.icons8.com/plasticine/100/000000/linkedin.png" width="35" />
-            </a>
-            <a href="https://www.twitter.com/Deibercastaeda2" target="_blank" rel="noopener noreferrer">
-                <img src="https://img.icons8.com/plasticine/100/000000/twitter.png" width="35" />
-            </a>
-        </div>
-    </div>
-    <div align='center' style="margin-right: 10%;">
-        <a href="https://github.com/Ana-Morales" target="_blank">
-            <img alt="twitter_page" src="https://avatars.githubusercontent.com/u/66080450?v=4" style="border-radius: 50%" height="80" width="80">
-        <p>Ana Ruth Morales</p>
-        </a>
-        <div>
-            <a href="https://www.linkedin.com/in/ana-ruth-morales/" target="_blank" rel="noopener noreferrer">
-                <img src="https://img.icons8.com/plasticine/100/000000/linkedin.png" width="35" />
-            </a>
-            <a href="https://www.twitter.com/San_Mor_" target="_blank" rel="noopener noreferrer">
-                <img src="https://img.icons8.com/plasticine/100/000000/twitter.png" width="35" />
-            </a>
-        </div>
-    </div>
-    <div align='center' style="margin-right: 10%;">
-        <a href="https://github.com/devarias" target="_blank">
-            <img alt="twitter_page" src="https://avatars.githubusercontent.com/u/61300552?v=4" style="border-radius: 50%" height="80" width="80">
-        <p>David Arias</p>
-        </a>
-        <div>
-            <a href="https://www.linkedin.com/in/devarias/" target="_blank" rel="noopener noreferrer">
-                <img src="https://img.icons8.com/plasticine/100/000000/linkedin.png" width="35" />
-            </a>
-            <a href="https://www.twitter.com/DavidDevArias" target="_blank" rel="noopener noreferrer">
-                <img src="https://img.icons8.com/plasticine/100/000000/twitter.png" width="35" />
-            </a>
-        </div>
-    </div>
+  <div align='center' style="margin-right: 10%;">
+    <a href="https://github.com/Deyber2000" target="_blank">
+        <img alt="twitter_page" src="https://avatars.githubusercontent.com/u/65909950?v=4" style="border-radius: 50%" height="80%" width="80">
+    <p>Deyber Castaneda</p>
+    </a>
+    <a href="https://www.linkedin.com/in/deybercastaneda/" target="_blank" rel="noopener noreferrer">
+      <img src="https://img.icons8.com/plasticine/100/000000/linkedin.png" width="35" />
+    </a>
+    <a href="https://www.twitter.com/Deibercastaeda2" target="_blank" rel="noopener noreferrer">
+      <img src="https://img.icons8.com/plasticine/100/000000/twitter.png" width="35" />
+    </a>
+  </div>
+  <div align='center' style="margin-right: 10%;">
+      <a href="https://github.com/Ana-Morales" target="_blank">
+          <img alt="twitter_page" src="https://avatars.githubusercontent.com/u/66080450?v=4" style="border-radius: 50%" height="80" width="80">
+      <p>Ana Ruth Morales</p>
+      </a>
+      <div>
+          <a href="https://www.linkedin.com/in/ana-ruth-morales/" target="_blank" rel="noopener noreferrer">
+              <img src="https://img.icons8.com/plasticine/100/000000/linkedin.png" width="35" />
+          </a>
+          <a href="https://www.twitter.com/San_Mor_" target="_blank" rel="noopener noreferrer">
+              <img src="https://img.icons8.com/plasticine/100/000000/twitter.png" width="35" />
+          </a>
+      </div>
+  </div>
+  <div align='center' style="margin-right: 10%;">
+      <a href="https://github.com/devarias" target="_blank">
+          <img alt="twitter_page" src="https://avatars.githubusercontent.com/u/61300552?v=4" style="border-radius: 50%" height="80" width="80">
+      <p>David Arias</p>
+      </a>
+      <div>
+          <a href="https://www.linkedin.com/in/devarias/" target="_blank" rel="noopener noreferrer">
+              <img src="https://img.icons8.com/plasticine/100/000000/linkedin.png" width="35" />
+          </a>
+          <a href="https://www.twitter.com/DavidDevArias" target="_blank" rel="noopener noreferrer">
+              <img src="https://img.icons8.com/plasticine/100/000000/twitter.png" width="35" />
+          </a>
+      </div>
+  </div>
 </div>
