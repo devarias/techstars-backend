@@ -147,7 +147,7 @@ This README provides guidelines and examples for Mentor Matching Machine API, us
 # Contributors
 
 
-<div style="display: flex; align-items: center; margin-left: 10%;">
+<div style="display: flex; align-items: center; justify-content: center;margin-left: 10%;">
   <div align='center' style="margin-right: 10%;">
     <a href="https://github.com/Deyber2000" target="_blank">
       <img alt="twitter_page" src="https://avatars.githubusercontent.com/u/65909950?v=4" height="80" width="80">
