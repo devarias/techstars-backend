@@ -179,7 +179,7 @@ This README provides guidelines and examples for Mentor Matching Machine API, us
         <td valign="top" align='center'>
           <a href="https://github.com/devarias" target="_blank">
             <p>David Arias Fuentes</p>
-            <img alt="github_page" src="https://avatars.githubusercontent.com/u/65909950?v=4" height="80" width="80"/>
+            <img alt="github_page" src="https://avatars.githubusercontent.com/u/61300552?v=4" height="80" width="80"/>
           </a>
           <br />
           <a href="https://www.linkedin.com/in/devarias/" target="_blank" rel="noopener noreferrer">
