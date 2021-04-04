@@ -1,6 +1,6 @@
 # Mentor Matching Machine API application.
 <p align="center">
-  <img src="https://i.imgur.com/ez3yUZo.png">
+  <img src="https://i.imgur.com/ESxEEg3.png">
 </p>
 
 This README provides guidelines and examples for Mentor Matching Machine API, used to receive and send data to the web application [Mentor Matching Machine](www.mentorai.co).
