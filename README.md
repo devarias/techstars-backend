@@ -3,9 +3,13 @@
   <img src="https://i.imgur.com/ESxEEg3.png">
 </p>
 
-This README provides guidelines and examples for Mentor Matching Machine API, used to receive and send data to the web application [Mentor Matching Machine](www.mentorai.co).
+This README provides guidelines for Mentor Matching Machine API, used to receive and send data to the web application [Mentor Matching Machine](www.mentorai.co).
 
 # Content
+- [Getting Started](#getting-started)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Running](#running)
 - [Routes and Methods](#routes-and-methods)
   - [Mentor Routes](#mentor-routes)
   - [Company Routes](#company-routes)
@@ -20,117 +24,143 @@ This README provides guidelines and examples for Mentor Matching Machine API, us
   - [Reschedule Routes](#reschedule-routes)
   - [Table Route](#table-route)
 - [Status Codes](#status-codes)
+- [Deployment](#deployment)
+- [Built With](#built-with)
 - [Contributors](#contributors)
 
+# Getting Started
+
+This project was built to communicate the front-end of the web application with the back-end running in this app as a RESTful API. As the first step is to receive a CSV with a specific format, this file must contain the information about the mentors, companies, the availability of the mentors to be scheduled during a week. The app analyzes the file and save all the distributed meetings in the database with all the information about the mentors and companies.
+<br />
+To implement this RESTful API you have to follow some instructions and requirements to use it.
+
+# Prerequisites
+
+* `nodejs` => v10.19.0
+* `npm` => v6.14.4
+* All the `const` variables with a **url address** must be changed to `http://localhost:5000`
+
+# Installation
+
+* `git clone https://github.com/devarias/techstars-backend.git`
+* `cd techstars-backend`
+* `./dependencies.sh` => In this file you'll find all the node package modules to install.
+* Everything is installed and ready to run.
+
+# Running
+
+* `npm run dev`
+  * This command will start running the API as a development environment, to apply changes during the modification of the files.
+* `npm start`
+  * This command will start running the API as a production environment, if you want to do a change, they will not be applied to the running app.
 
 # Routes and Methods
-<br />
 
 * ## Mentor Routes
 
 | Route          |  Method  | Description                             |
 | -------------- | :------: | --------------------------------------- |
-| `/mentors`     |  `get`   | To get all the data of the mentors      |
-| `/mentors`     |  `post`  | To create a new mentor                  |
-| `/mentors`     | `delete` | To delete an existing mentor            |
-| `/mentors/:id` |  `get`   | To get the data about a specific mentor |
-| `/mentors/:id` |  `put`   | To update an existing mentor            |
+| `api/mentors`     |  `get`   | To get all the data of the mentors      |
+| `api/mentors`     |  `post`  | To create a new mentor                  |
+| `api/mentors`     | `delete` | To delete an existing mentor            |
+| `api/mentors/:id` |  `get`   | To get the data about a specific mentor |
+| `api/mentors/:id` |  `put`   | To update an existing mentor            |
 <br />
 
 * ## Company Routes
 
 | Route            |  Method  | Description                              |
 | ---------------- | :------: | ---------------------------------------- |
-| `/companies`     |  `get`   | To get all the data of the companies     |
-| `/companies/:id` |  `get`   | To get the data about a specific company |
-| `/companies/:id` | `delete` | To delete an existing company            |
-| `/companies/:id` |  `put`   | To update an existing company            |
+| `api/companies`     |  `get`   | To get all the data of the companies     |
+| `api/companies/:id` |  `get`   | To get the data about a specific company |
+| `api/companies/:id` | `delete` | To delete an existing company            |
+| `api/companies/:id` |  `put`   | To update an existing company            |
 <br />
 
 * ## Mentor Surveys Routes
 
 | Route                       |  Method  | Description                                          |
 | --------------------------- | :------: | ---------------------------------------------------- |
-| `/mentor_survey`            |  `get`   | To get all the data of the surveys filled by mentors |
-| `/mentor_survey`            |  `post`  | To create a new survey filled by a mentor            |
-| `/mentor_survey/:id`        |  `get`   | To get the data about a specific survey              |
-| `/mentor_survey/:id`        | `delete` | To delete an existing survey                         |
-| `/mentor_survey/:id`        |  `put`   | To update an existing survey                         |
-| `/mentor_survey/mentor/:id` |  `get`   | To get the data of a mentor with a specific survey   |
+| `api/mentor_survey`            |  `get`   | To get all the data of the surveys filled by mentors |
+| `api/mentor_survey`            |  `post`  | To create a new survey filled by a mentor            |
+| `api/mentor_survey/:id`        |  `get`   | To get the data about a specific survey              |
+| `api/mentor_survey/:id`        | `delete` | To delete an existing survey                         |
+| `api/mentor_survey/:id`        |  `put`   | To update an existing survey                         |
+| `api/mentor_survey/mentor/:id` |  `get`   | To get the data of a mentor with a specific survey   |
 <br />
 
 * ## Company Surveys Routes
 
 | Route                        |  Method  | Description                                                          |
 | ---------------------------- | :------: | -------------------------------------------------------------------- |
-| `/company_survey`            |  `get`   | To get all the data of the surveys filled by companies               |
-| `/company_survey`            |  `post`  | To create a new survey filled by a company                           |
-| `/company_survey/:id`        |  `get`   | To get the data about a specific survey                              |
-| `/company_survey/:id`        | `delete` | To delete an existing survey                                         |
-| `/company_survey/:id`        |  `put`   | To update an existing survey                                         |
-| `/company_survey/mentor/:id` |  `get`   | To get the data of a mentor with a specific survey filled by company |
+| `api/company_survey`            |  `get`   | To get all the data of the surveys filled by companies               |
+| `api/company_survey`            |  `post`  | To create a new survey filled by a company                           |
+| `api/company_survey/:id`        |  `get`   | To get the data about a specific survey                              |
+| `api/company_survey/:id`        | `delete` | To delete an existing survey                                         |
+| `api/company_survey/:id`        |  `put`   | To update an existing survey                                         |
+| `api/company_survey/mentor/:id` |  `get`   | To get the data of a mentor with a specific survey filled by company |
 <br />
 
 * ## Meetings Routes
 
 | Route       | Method | Description                         |
 | ----------- | :----: | ----------------------------------- |
-| `/meetings` | `get`  | To get all the data of the meetings |
-| `/meetings` | `put`  | To update a meeting                 |
+| `api/meetings` | `get`  | To get all the data of the meetings |
+| `api/meetings` | `put`  | To update a meeting                 |
 <br />
 
 * ## Pending Route
 
 | Route      | Method | Description                                                   |
 | ---------- | :----: | ------------------------------------------------------------- |
-| `/pending` | `get`  | To get all the data about the pending mentors to be scheduled |
+| `api/pending` | `get`  | To get all the data about the pending mentors to be scheduled |
 <br />
 
 * ## Performance Routes
 
 | Route                    | Method | Description                           |
 | ------------------------ | :----: | ------------------------------------- |
-| `/performance/mentors`   | `get`  | To get the performance of the mentors |
-| `/performance/companies` | `get`  | To get the performance of the mentors |
+| `api/performance/mentors`   | `get`  | To get the performance of the mentors |
+| `api/performance/companies` | `get`  | To get the performance of the mentors |
 <br />
 
 * ## Reminder Routes
 
 | Route                 | Method | Description                                                |
 | --------------------- | :----: | ---------------------------------------------------------- |
-| `/reminder/mentors`   | `get`  | To send the reminders to fill the surveys to the mentors   |
-| `/reminder/companies` | `get`  | To send the reminders to fill the surveys to the companies |
+| `api/reminder/mentors`   | `get`  | To send the reminders to fill the surveys to the mentors   |
+| `api/reminder/companies` | `get`  | To send the reminders to fill the surveys to the companies |
 <br />
 
 * ## Results Routes
 
 | Route                | Method | Description                                      |
 | -------------------- | :----: | ------------------------------------------------ |
-| `/results/mentors`   | `get`  | To get all the results of the surveys by mentor  |
-| `/results/companies` | `get`  | To get all the results of the surveys by company |
+| `api/results/mentors`   | `get`  | To get all the results of the surveys by mentor  |
+| `api/results/companies` | `get`  | To get all the results of the surveys by company |
 <br />
 
 * ## Schedule Routes
 
 | Route       | Method | Description                                          |
 | ----------- | :----: | ---------------------------------------------------- |
-| `/schedule` | `get`  | To get the data of the scheduled meetings            |
-| `/schedule` | `post` | To create the schedule for the mentors and companies |
+| `api/schedule` | `get`  | To get the data of the scheduled meetings            |
+| `api/schedule` | `post` | To create the schedule for the mentors and companies |
 <br />
 
 * ## Reschedule Routes
 
 | Route         | Method | Description                                     |
 | ------------- | :----: | ----------------------------------------------- |
-| `/reschedule` | `post` | To reschedule a meeting                         |
-| `/reschedule` | `put`  | To create a new meeting for a mentor or company |
+| `api/reschedule` | `post` | To reschedule a meeting                         |
+| `api/reschedule` | `put`  | To create a new meeting for a mentor or company |
 <br />
 
 * ## Table Route
 
 | Route    | Method | Description                                          |
 | -------- | :----: | ---------------------------------------------------- |
-| `/table` | `get`  | To get the table of the meetings once are generated  |
+| `api/table` | `get`  | To get the table of the meetings once are generated  |
 <br />
 
 # Status Codes
@@ -143,6 +173,20 @@ This README provides guidelines and examples for Mentor Matching Machine API, us
 |      `404`       | Response by a `get`, `post` or `put` method used in an endpoint with an specific id |
 |      `500`       |                     Response when the server is not responding                      |
 <br />
+
+# Deployment
+
+* The deployment of this RESTful API was made in Heroku Platform to be tested.
+  * https://techstars-api.herokuapp.com/api/
+
+# Built With
+
+  * NodeJS
+  * PostgreSQL
+  * Sequilize
+  * ExpressJS
+  * npm
+  * Sendgrid
 
 # Contributors
 
