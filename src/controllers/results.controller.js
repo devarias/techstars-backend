@@ -81,7 +81,7 @@ async function getInfo() {
 function addDays(dateObj, numDays) {
   return dateObj.setDate(dateObj.getDate() + numDays);
 }
-function meetingHappened(meetingSlot) {
+function meetingHappened(meetingSlot, programDate) {
   const days = {
     Monday: 1,
     Tuesday: 2,
@@ -89,29 +89,29 @@ function meetingHappened(meetingSlot) {
     Thursday: 4,
     Friday: 5,
   };
+  const week = 5;
   const date = new Date();
-  const dateCreatedAt = new Date(meetingSlot.created_at);
-  if (
-    date.getUTCDay() > days[meetingSlot.day] &&
-    date.getUTCMonth() >= dateCreatedAt.getUTCMonth()
-  ) {
+  const passedWeek = new Date(programDate);
+  addDays(passedWeek, week);
+  if (date > passedWeek) {
     return true;
-  }
-  if (
-    date.getUTCDay() < days[meetingSlot.day] &&
-    addDays(dateCreatedAt, 6).getUTCDate <= date.getUTCDate()
-  ) {
+  } else if (date.getUTCDay() > days[meetingSlot.day]) {
     return true;
   }
   return false;
 }
-function meetingDone(meeting) {
+function meetingDone(meeting, programDate) {
   if (meeting.day && meeting.block && meeting.slot) {
-    if (meetingHappened(meeting)) {
+    if (meetingHappened(meeting, programDate)) {
       return true;
     }
   }
   return false;
+}
+function startProgram(created, start) {
+  const createdDate = new Date(created);
+  const startDate = new Date(start);
+  return createdDate >= startDate ? startDate : createdDate;
 }
 async function createMentorResults(
   mentors,
@@ -122,9 +122,20 @@ async function createMentorResults(
   results
 ) {
   try {
+    const start = { 0: 1, 1: 7, 2: 6, 3: 5, 4: 4, 5: 3, 6: 2 };
+    const date = new Date();
     let list = {};
     let subList = [];
     let mentorList = [];
+    let programDate = blocks[0].created_at;
+    let meetingStart = false;
+    for (let i = 0; i < blocks.length; i++) {
+      programDate = startProgram(blocks[i].created_at, programDate);
+    }
+    addDays(programDate, start[programDate.getUTCDay()]);
+    if (date > programDate) {
+      meetingStart = true;
+    }
     for (let i = 0; i < blocks.length; i++) {
       let infoBlocks = {
         mentor_id: '',
@@ -137,7 +148,8 @@ async function createMentorResults(
         mentorFeedback: null,
         companyFeedback: null,
         matchResult: NaN,
-        meetingDone: meetingDone(blocks[i]),
+        meetingDone:
+          meetingStart === true ? meetingDone(blocks[i], programDate) : false,
         survey_id: null,
         picture: companyProPic[blocks[i].company],
       };
@@ -236,9 +248,20 @@ async function createCompanyResults(
   results
 ) {
   try {
+    const start = { 0: 1, 1: 7, 2: 6, 3: 5, 4: 4, 5: 3, 6: 2 };
+    const date = new Date();
     let list = {};
     let subList = [];
     let companyList = [];
+    let programDate = blocks[0].created_at;
+    let meetingStart = false;
+    for (let i = 0; i < blocks.length; i++) {
+      programDate = startProgram(blocks[i].created_at, programDate);
+    }
+    addDays(programDate, start[programDate.getUTCDay()]);
+    if (date > programDate) {
+      meetingStart = true;
+    }
     for (let i = 0; i < blocks.length; i++) {
       let infoBlocks = {
         company_id: '',
@@ -251,7 +274,8 @@ async function createCompanyResults(
         mentorFeedback: null,
         companyFeedback: null,
         matchResult: NaN,
-        meetingDone: meetingDone(blocks[i]),
+        meetingDone:
+          meetingStart === true ? meetingDone(blocks[i], programDate) : false,
         survey_id: null,
         picture: mentorProPic[blocks[i].mentor],
       };
