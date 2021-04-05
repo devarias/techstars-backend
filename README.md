@@ -106,7 +106,7 @@ To implement this RESTful API you have to follow some instructions and requireme
 | Route       | Method | Description                         |
 | ----------- | :----: | ----------------------------------- |
 | `api/meetings` | `get`  | To get all the data of the meetings |
-| `api/meetings` | `put`  | To update a meeting                 |
+| `api/meetings` | `put`  | To update (cancel) a meeting        |
 <br />
 
 * ## Pending Route
@@ -152,8 +152,8 @@ To implement this RESTful API you have to follow some instructions and requireme
 
 | Route         | Method | Description                                     |
 | ------------- | :----: | ----------------------------------------------- |
-| `api/reschedule` | `post` | To reschedule a meeting                         |
-| `api/reschedule` | `put`  | To create a new meeting for a mentor or company |
+| `api/reschedule` | `post` | To preschedule and get all available spots for one or more meetings |
+| `api/reschedule` | `put`  | To update (reschedule) one or more meetings for a mentor            |
 <br />
 
 * ## Table Route
@@ -183,7 +183,7 @@ To implement this RESTful API you have to follow some instructions and requireme
 
   * NodeJS
   * PostgreSQL
-  * Sequilize
+  * Sequelize
   * ExpressJS
   * npm
   * Sendgrid
