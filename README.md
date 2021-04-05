@@ -187,6 +187,7 @@ To implement this RESTful API you have to follow some instructions and requireme
   * ExpressJS
   * npm
   * Sendgrid
+  * Python
 
 # Contributors
 
